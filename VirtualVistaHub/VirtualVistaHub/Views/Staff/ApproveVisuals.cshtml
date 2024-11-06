@@ -1,0 +1,129 @@
+@model VirtualVistaHub.Models.ImagesModel
+
+<h1>Визуална част</h1>
+
+@if (Model != null)
+{
+    <div class="container property-detail">
+        <hr />
+        <h5 id="h5">Ако 3D визуализацията не зарежда, натиснете Ctrl + F5</h5>
+        <iframe id="blueprint3dFrame" src="https://bojidar.maxprogress.bg/3dbuilder/example#loadRoom=" width="100%" height="600px"></iframe>
+
+        <div class="gallery mt-4">
+            @if (Model.ImagePaths != null && Model.ImagePaths.Length > 0)
+            {
+                <div class="row">
+                    @foreach (var imagePath in Model.ImagePaths)
+                    {
+                        <div class="col-md-4 col-sm-6 col-12 mb-4">
+                            <a href="@Url.Content($"~/Uploads/{Model.TableName}/{imagePath}")" data-lightbox="property-images">
+                                <img src="@Url.Content($"~/Uploads/{Model.TableName}/{imagePath}")" alt="Property Image" class="img-thumbnail w-100" style="height: 400px; object-fit: cover;">
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+
+        <button type="button" class="btn btn-primary approve-decline-btn mb-3" data-property-id="@Model.PropertyDetails.PropertyId" data-bs-toggle="modal" data-bs-target="#approveDeclineModal">
+            Одобри
+        </button>
+    </div>
+}
+else
+{
+    <p>Няма намерена визуална част</p>
+}
+
+<div class="modal fade" id="approveDeclineModal" tabindex="-1" aria-labelledby="approveDeclineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approveDeclineModalLabel">Потвърждение</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white; border-color: black;"></button>
+            </div>
+            <div class="modal-body">
+                <p>Сигурен ли си, че искаш да одобриш или откажеш имота?</p>
+                <div class="form-check">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input style="background-image: inherit;" class="form-check-input" type="radio" name="approvalStatus" id="approveRadio" value="approve" checked>
+                            <label class="form-check-label" for="approveRadio">Одобри</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input style="background-image: inherit;" class="form-check-input" type="radio" name="approvalStatus" id="declineRadio" value="decline">
+                            <label class="form-check-label" for="declineRadio">Откажи</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="reasonInput" style="display: none;">
+                    <label for="declineReason">Причина за отказването:</label>
+                    <input type="text" class="form-control" id="declineReason" maxlength="300">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Откажи</button>
+                <button type="button" class="btn btn-primary" id="confirmApprovalBtn">Потвърди</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+            var encodedJsonData = '@Model.PropertyDetails.VTour';
+            var jsonData = HtmlDecode(encodedJsonData);
+            var iframe = document.getElementById('blueprint3dFrame');
+            var h5 = document.getElementById('h5');
+
+            if (jsonData != "none") {
+                var srcUrl = 'https://bojidar.maxprogress.bg/3dbuilder/example#loadRoom=' + encodeURIComponent(JSON.stringify(jsonData));
+                iframe.src = srcUrl;
+            } else {
+                iframe.style.display = 'none';
+                h5.style.display = 'none';
+
+            }
+
+
+            var propertyId;
+
+            $('.approve-decline-btn').click(function () {
+                propertyId = $(this).data('property-id');
+            });
+
+            $('input[name="approvalStatus"]').change(function () {
+                if ($('#declineRadio').is(':checked')) {
+                    $('#reasonInput').show();
+                } else {
+                    $('#reasonInput').hide();
+                }
+            });
+
+            $('#confirmApprovalBtn').click(function () {
+                var approvalStatus = $('input[name=approvalStatus]:checked').val();
+                var reason = $('#declineReason').val();
+
+                if (approvalStatus === "approve") {
+                    window.location.href = '@Url.Action("Approve", "Staff")?propertyId=' + propertyId + '&approvedstatus=true';
+                } else {
+                    if (reason.length > 0 && reason.length <= 300) {
+                        window.location.href = '@Url.Action("Approve", "Staff")?propertyId=' + propertyId + '&approvedstatus=false&approvedmessage=' + encodeURIComponent(reason);
+                    } else {
+                        alert("Добавете причина за отказа (Максимум 300 символа).");
+                    }
+                }
+            });
+
+            function HtmlDecode(input) {
+                var e = document.createElement('textarea');
+                e.innerHTML = input;
+                // handle case where browser might break with &quot; decoding
+                return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+            }
+        });
+    </script>
+}

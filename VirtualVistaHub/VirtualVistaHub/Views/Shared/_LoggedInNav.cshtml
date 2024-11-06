@@ -1,0 +1,44 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button style="background-color: white; border-color: black;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <nav class="sidebar bg-light">
+                    <ul class="nav flex-column" style="margin: 0;">
+                        <li class="nav-item navbar-nav">
+                            <a class="navbar-brand mx-auto" href="@Url.Action("Index", "Home" , new { area="" })">
+                                <img width="200" src="@Url.Content("~/Content/imgs/logo.png")" />
+                            </a>
+                        </li>
+                        <li class="nav-item navbar-nav mx-auto fw-bold m-4">
+                            Здравей, @Session["UserFirstName"]
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("За нас", "AboutUs", "Home", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">За нас<", "><i class='fas fa-info-circle'></i> За нас<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Контакти", "Contacts", "Home", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Контакти<", "><i class='fas fa-address-book'></i> Контакти<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Търси", "Search", "Home", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Търси<", "><i class='fas fa-search'></i> Търси<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Заявки", "Requests", "Property", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Заявки<", "><i class='fas fa-tasks'></i> Заявки<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Твоите имоти", "Properties", "Home", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Твоите имоти<", "><i class='fas fa-home'></i> Твоите имоти<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Акаунт", "Account", "Home", new { userId = Session["idUser"] }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Акаунт<", "><i class='fas fa-user'></i> Акаунт<"))
+                        </li>
+                        <li class="nav-item my-2">
+                            @Html.Raw(Html.ActionLink("Отпиши се", "Logout", "Home", new { area = "" }, new { @class = "btn btn-sidebar text-white" }).ToString().Replace(">Отпиши се<", "><i class='fas fa-sign-out-alt'></i> Отпиши се<"))
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </nav>
+</header>

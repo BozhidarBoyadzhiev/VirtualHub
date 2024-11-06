@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VirtualVistaBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="PropertyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeOfProperty" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="District" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Neighbourhood" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Area" Type="int" Nullable="false" />
+          <Property Name="TypeOfConstruction" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdditionalInformation" Type="nvarchar" MaxLength="2500" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeOfSale" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="WantToBuy" Type="bit" Nullable="false" />
+          <Property Name="Sold" Type="bit" Nullable="false" />
+          <Property Name="PropertyDetailsTable" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'VirtualVistaBase.dbo.PropertyDetailsTemplate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PropertyDetailsTemplate">
+          <Key>
+            <PropertyRef Name="VTour" />
+            <PropertyRef Name="Images" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="PropertyId" Type="int" />
+          <Property Name="VTour" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Images" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserLevel" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserProperty">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="UserIdOfSeller" Type="int" Nullable="false" />
+          <Property Name="UserIdOfBuyer" Type="int" Nullable="false" />
+          <Property Name="PropertyId" Type="int" Nullable="false" />
+          <Property Name="TypeOfRequest" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Property__UserId__04459E07">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PropertyD__Prope__062DE679">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="PropertyDetailsTemplate">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PropertyD__UserI__07220AB2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PropertyDetailsTemplate">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Staff__UserId__793DFFAF">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__Prope__0BE6BFCF">
+          <End Role="Property" Type="Self.Property" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__UserI__09FE775D">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="UserIdOfSeller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__UserI__0AF29B96">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="UserIdOfBuyer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VirtualVistaBaseModelStoreContainer">
+          <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProperty" EntityType="Self.UserProperty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropertyDetailsTemplate" EntityType="Self.PropertyDetailsTemplate" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PropertyDetailsTemplate].[PropertyId] AS [PropertyId], 
+    [PropertyDetailsTemplate].[VTour] AS [VTour], 
+    [PropertyDetailsTemplate].[Images] AS [Images], 
+    [PropertyDetailsTemplate].[UserId] AS [UserId]
+    FROM [dbo].[PropertyDetailsTemplate] AS [PropertyDetailsTemplate]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Property__UserId__04459E07" Association="Self.FK__Property__UserId__04459E07">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Property" EntitySet="Property" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PropertyD__Prope__062DE679" Association="Self.FK__PropertyD__Prope__062DE679">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PropertyD__UserI__07220AB2" Association="Self.FK__PropertyD__UserI__07220AB2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Staff__UserId__793DFFAF" Association="Self.FK__Staff__UserId__793DFFAF">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__Prope__0BE6BFCF" Association="Self.FK__UserPrope__Prope__0BE6BFCF">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="UserProperty" EntitySet="UserProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__UserI__09FE775D" Association="Self.FK__UserPrope__UserI__09FE775D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProperty" EntitySet="UserProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__UserI__0AF29B96" Association="Self.FK__UserPrope__UserI__0AF29B96">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProperty" EntitySet="UserProperty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VirtualVistaBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="PropertyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeOfProperty" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="District" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Neighbourhood" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Area" Type="Int32" Nullable="false" />
+          <Property Name="TypeOfConstruction" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdditionalInformation" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApprovalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeOfSale" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="WantToBuy" Type="Boolean" Nullable="false" />
+          <Property Name="Sold" Type="Boolean" Nullable="false" />
+          <Property Name="PropertyDetailsTable" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Property__UserId__04459E07" FromRole="Property" ToRole="Users" />
+          <NavigationProperty Name="PropertyDetailsTemplates" Relationship="Self.FK__PropertyD__Prope__062DE679" FromRole="Property" ToRole="PropertyDetailsTemplate" />
+          <NavigationProperty Name="UserProperty" Relationship="Self.FK__UserPrope__Prope__0BE6BFCF" FromRole="Property" ToRole="UserProperty" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Staff__UserId__793DFFAF" FromRole="Staff" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserProperty">
+          <Key>
+            <PropertyRef Name="PropertyId" />
+          </Key>
+          <Property Name="UserIdOfSeller" Type="Int32" Nullable="false" />
+          <Property Name="UserIdOfBuyer" Type="Int32" Nullable="false" />
+          <Property Name="PropertyId" Type="Int32" Nullable="false" />
+          <Property Name="TypeOfRequest" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Property" Relationship="Self.FK__UserPrope__Prope__0BE6BFCF" FromRole="UserProperty" ToRole="Property" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserPrope__UserI__09FE775D" FromRole="UserProperty" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK__UserPrope__UserI__0AF29B96" FromRole="UserProperty" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Properties" Relationship="Self.FK__Property__UserId__04459E07" FromRole="Users" ToRole="Property" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__Staff__UserId__793DFFAF" FromRole="Users" ToRole="Staff" />
+          <NavigationProperty Name="UserProperties" Relationship="Self.FK__UserPrope__UserI__09FE775D" FromRole="Users" ToRole="UserProperty" />
+          <NavigationProperty Name="UserProperties1" Relationship="Self.FK__UserPrope__UserI__0AF29B96" FromRole="Users" ToRole="UserProperty" />
+          <NavigationProperty Name="PropertyDetailsTemplates" Relationship="Self.FK__PropertyD__UserI__07220AB2" FromRole="Users" ToRole="PropertyDetailsTemplate" />
+        </EntityType>
+        <EntityType Name="PropertyDetailsTemplate">
+          <Key>
+            <PropertyRef Name="VTour" />
+            <PropertyRef Name="Images" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="PropertyId" Type="Int32" />
+          <Property Name="VTour" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Property" Relationship="Self.FK__PropertyD__Prope__062DE679" FromRole="PropertyDetailsTemplate" ToRole="Property" />
+          <NavigationProperty Name="User" Relationship="Self.FK__PropertyD__UserI__07220AB2" FromRole="PropertyDetailsTemplate" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__Property__UserId__04459E07">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Property" Type="Self.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PropertyD__Prope__062DE679">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="PropertyDetailsTemplate">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__Prope__0BE6BFCF">
+          <End Role="Property" Type="Self.Property" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="PropertyId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="PropertyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Staff__UserId__793DFFAF">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__UserI__09FE775D">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="UserIdOfSeller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrope__UserI__0AF29B96">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProperty">
+              <PropertyRef Name="UserIdOfBuyer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PropertyD__UserI__07220AB2">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PropertyDetailsTemplate">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VirtualVistaBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Properties" EntityType="Self.Property" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="UserProperties" EntityType="Self.UserProperty" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="PropertyDetailsTemplates" EntityType="Self.PropertyDetailsTemplate" />
+          <AssociationSet Name="FK__Property__UserId__04459E07" Association="Self.FK__Property__UserId__04459E07">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PropertyD__Prope__062DE679" Association="Self.FK__PropertyD__Prope__062DE679">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__Prope__0BE6BFCF" Association="Self.FK__UserPrope__Prope__0BE6BFCF">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="UserProperty" EntitySet="UserProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Staff__UserId__793DFFAF" Association="Self.FK__Staff__UserId__793DFFAF">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__UserI__09FE775D" Association="Self.FK__UserPrope__UserI__09FE775D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProperty" EntitySet="UserProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrope__UserI__0AF29B96" Association="Self.FK__UserPrope__UserI__0AF29B96">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserProperty" EntitySet="UserProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PropertyD__UserI__07220AB2" Association="Self.FK__PropertyD__UserI__07220AB2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplates" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VirtualVistaBaseModelStoreContainer" CdmEntityContainer="VirtualVistaBaseEntities">
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="VirtualVistaBaseModel.Property">
+              <MappingFragment StoreEntitySet="Property">
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="TypeOfProperty" ColumnName="TypeOfProperty" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Neighbourhood" ColumnName="Neighbourhood" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TypeOfConstruction" ColumnName="TypeOfConstruction" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="AdditionalInformation" ColumnName="AdditionalInformation" />
+                <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+                <ScalarProperty Name="TypeOfSale" ColumnName="TypeOfSale" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="WantToBuy" ColumnName="WantToBuy" />
+                <ScalarProperty Name="Sold" ColumnName="Sold" />
+                <ScalarProperty Name="PropertyDetailsTable" ColumnName="PropertyDetailsTable" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="VirtualVistaBaseModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserLevel" ColumnName="UserLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProperties">
+            <EntityTypeMapping TypeName="VirtualVistaBaseModel.UserProperty">
+              <MappingFragment StoreEntitySet="UserProperty">
+                <ScalarProperty Name="UserIdOfSeller" ColumnName="UserIdOfSeller" />
+                <ScalarProperty Name="UserIdOfBuyer" ColumnName="UserIdOfBuyer" />
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="TypeOfRequest" ColumnName="TypeOfRequest" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="VirtualVistaBaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertyDetailsTemplates">
+            <EntityTypeMapping TypeName="VirtualVistaBaseModel.PropertyDetailsTemplate">
+              <MappingFragment StoreEntitySet="PropertyDetailsTemplate">
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="VTour" ColumnName="VTour" />
+                <ScalarProperty Name="Images" ColumnName="Images" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

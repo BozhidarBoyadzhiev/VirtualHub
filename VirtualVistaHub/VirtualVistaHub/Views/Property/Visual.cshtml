@@ -1,0 +1,68 @@
+﻿@model VirtualVistaHub.Models.PropertyDetailsTemplate
+
+<h1 class="text-center">Визуалната част за имота</h1>
+
+@using (Html.BeginForm("Visual", "Property", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validateForm()" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container form-horizontal">
+        <hr />
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
+        <iframe src="https://bojidar.maxprogress.bg/3dbuilder/example/" width="100%" height="600px"></iframe>
+
+        <h5 class="text-center">⬇️ За да качите 3D визуализация трябва да цъкнете на бутона "Save" и да качите изтегления файл. Ако не искате 3D визуализация, не качвайте нищо. ⬇️</h5>
+
+        <div class="mb-3 row align-items-center">
+            <div class="control-label col-md-2">Визуализация</div>
+            <div class="col-sm-10">
+                <input type="file" name="vtourFile" class="form-control" accept=".blueprint3d" />
+                @Html.ValidationMessageFor(model => model.VTour, "", new { @class = "text-danger" })
+                <small class="text-muted">Качи .blueprint3d файл</small>
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <div class="control-label col-md-2">Снимки</div>
+            <div class="col-sm-10">
+                <input type="file" name="images" multiple class="form-control" accept=".jpg,.jpeg,.png" onchange="checkFileCount(this)" id="imagesInput" />
+                @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })
+                <small class="text-muted">Може да качиш минимум 2 снимки или максимум 12 снимки</small>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-sm-10 offset-sm-2">
+                <input type="submit" value="Създай" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function checkFileCount(input) {
+            if (input.files.length > 12) {
+                alert("Можеш да качиш максимум 12 снимки!");
+                input.value = "";
+            } else if (input.files.length < 2) {
+                alert("Трябва да качиш минимум 2 снимки!");
+                input.value = "";
+            }
+        }
+
+        function validateForm() {
+            var input = document.getElementById('imagesInput');
+            if (input.files.length < 2) {
+                alert("Трябва да качиш минимум 2 снимки!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

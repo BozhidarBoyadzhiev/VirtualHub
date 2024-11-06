@@ -1,0 +1,102 @@
+@model Tuple<IEnumerable<VirtualVistaHub.Models.UserProperty>, VirtualVistaHub.Models.PaginationModel>
+
+<h1 class="text-center">Заявки</h1>
+<div class="container mt-4">
+    <section>
+        <div class="table-container">
+            <div class="d-flex justify-content-between mb-3">
+                <div>
+                    <label>
+                        Покажи
+                        <select class="form-select form-select-sm d-inline-block" style="width: auto;" id="pageSize">
+                            <option value="10" @(Model.Item2.PageSize == 10 ? "selected" : "")>10</option>
+                            <option value="25" @(Model.Item2.PageSize == 25 ? "selected" : "")>25</option>
+                            <option value="50" @(Model.Item2.PageSize == 50 ? "selected" : "")>50</option>
+                            <option value="100" @(Model.Item2.PageSize == 100 ? "selected" : "")>100</option>
+                        </select>
+                        записа
+                    </label>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().Property.District)</th>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().Property.Neighbourhood)</th>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().Property.Price)</th>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().Property.Area)</th>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().User.FirstName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Item1.First().User.LastName)</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item1)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Property.District)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Property.Neighbourhood)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Property.Price) лв.</td>
+                                <td>@Html.DisplayFor(modelItem => item.Property.Area) кв. м.</td>
+                                <td>@Html.DisplayFor(modelItem => item.User.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.User.LastName)</td>
+                                <td>
+                                    @if (Session["idUser"].ToString() == item.UserIdOfBuyer.ToString())
+                                    {
+                                        @Html.ActionLink("Отмени заявката", "MakeRequest", "Property", new { propertyId = item.PropertyId, actionType = "delete" }, new { @class = "btn btn-danger btn-sm", @style = "color: black; font-weight: bold;" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Продадено", "MakeRequest", "Property", new { propertyId = item.PropertyId, actionType = "sold" }, new { @class = "btn btn-success me-3", @style = "color: black; font-weight: bold;" })
+                                        @Html.ActionLink("Върни го на маркета", "MakeRequest", "Property", new { propertyId = item.PropertyId, actionType = "backtomarket" }, new { @class = "btn btn-danger", @style = "color: black; font-weight: bold;" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    Показване на @((Model.Item2.Page - 1) * Model.Item2.PageSize + 1) до @(Model.Item2.Page * Model.Item2.PageSize < Model.Item2.TotalItems ? Model.Item2.Page * Model.Item2.PageSize : Model.Item2.TotalItems) от @Model.Item2.TotalItems записа
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-sm mb-0">
+                        @if (Model.Item2.Page > 1)
+                        {
+                            <li class="page-item"><a class="page-link" href="@Url.Action("Requests", new { page = Model.Item2.Page - 1, pageSize = Model.Item2.PageSize })">Previous</a></li>
+                        }
+                        @if (Model.Item2.Page != 1)
+                        {
+                            for (int i = 1; i <= Model.Item2.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.Item2.Page ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Requests", new { page = i, pageSize = Model.Item2.PageSize })">@i</a>
+                                </li>
+                            }
+                        }
+                        @if (Model.Item2.Page < Model.Item2.TotalPages)
+                        {
+                            <li class="page-item"><a class="page-link" href="@Url.Action("Requests", new { page = Model.Item2.Page + 1, pageSize = Model.Item2.PageSize })">Next</a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            document.getElementById("pageSize").addEventListener("change", function () {
+                var pageSize = this.value;
+                var currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('pageSize', pageSize);
+                currentUrl.searchParams.set('page', 1);
+                window.location.href = currentUrl.toString();
+            });
+        });
+    </script>
+}

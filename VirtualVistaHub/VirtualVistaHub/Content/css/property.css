@@ -1,0 +1,21 @@
+.property-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-body .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.card-body .card-text {
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007BFF;
+    border: none;
+}

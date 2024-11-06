@@ -1,0 +1,40 @@
+﻿@model VirtualVistaHub.Models.User
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-3 mb-5 bg-body rounded" style="width: 50rem;">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Впиши се</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Имейл", required = "required" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Парола", required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group d-grid">
+                        <button type="submit" class="btn btn-primary btn-block">Впиши се</button>
+                    </div>
+
+                    <div class="form-group fs-6 text-danger text-center mt-3">
+                        <p>@ViewBag.Notification</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
