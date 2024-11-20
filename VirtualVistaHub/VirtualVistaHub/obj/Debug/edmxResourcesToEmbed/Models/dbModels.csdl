@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VirtualVistaBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Property">
+    <Key>
+      <PropertyRef Name="PropertyId" />
+    </Key>
+    <Property Name="PropertyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeOfProperty" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="District" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Neighbourhood" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Area" Type="Int32" Nullable="false" />
+    <Property Name="TypeOfConstruction" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AdditionalInformation" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ApprovalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TypeOfSale" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <Property Name="WantToBuy" Type="Boolean" Nullable="false" />
+    <Property Name="Sold" Type="Boolean" Nullable="false" />
+    <Property Name="PropertyDetailsTable" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Property__UserId__04459E07" FromRole="Property" ToRole="Users" />
+    <NavigationProperty Name="PropertyDetailsTemplates" Relationship="Self.FK__PropertyD__Prope__062DE679" FromRole="Property" ToRole="PropertyDetailsTemplate" />
+    <NavigationProperty Name="UserProperty" Relationship="Self.FK__UserPrope__Prope__0BE6BFCF" FromRole="Property" ToRole="UserProperty" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="UserLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Staff__UserId__793DFFAF" FromRole="Staff" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="UserProperty">
+    <Key>
+      <PropertyRef Name="PropertyId" />
+    </Key>
+    <Property Name="UserIdOfSeller" Type="Int32" Nullable="false" />
+    <Property Name="UserIdOfBuyer" Type="Int32" Nullable="false" />
+    <Property Name="PropertyId" Type="Int32" Nullable="false" />
+    <Property Name="TypeOfRequest" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Property" Relationship="Self.FK__UserPrope__Prope__0BE6BFCF" FromRole="UserProperty" ToRole="Property" />
+    <NavigationProperty Name="User" Relationship="Self.FK__UserPrope__UserI__09FE775D" FromRole="UserProperty" ToRole="Users" />
+    <NavigationProperty Name="User1" Relationship="Self.FK__UserPrope__UserI__0AF29B96" FromRole="UserProperty" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Properties" Relationship="Self.FK__Property__UserId__04459E07" FromRole="Users" ToRole="Property" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK__Staff__UserId__793DFFAF" FromRole="Users" ToRole="Staff" />
+    <NavigationProperty Name="UserProperties" Relationship="Self.FK__UserPrope__UserI__09FE775D" FromRole="Users" ToRole="UserProperty" />
+    <NavigationProperty Name="UserProperties1" Relationship="Self.FK__UserPrope__UserI__0AF29B96" FromRole="Users" ToRole="UserProperty" />
+    <NavigationProperty Name="PropertyDetailsTemplates" Relationship="Self.FK__PropertyD__UserI__07220AB2" FromRole="Users" ToRole="PropertyDetailsTemplate" />
+  </EntityType>
+  <EntityType Name="PropertyDetailsTemplate">
+    <Key>
+      <PropertyRef Name="VTour" />
+      <PropertyRef Name="Images" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="PropertyId" Type="Int32" />
+    <Property Name="VTour" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Property" Relationship="Self.FK__PropertyD__Prope__062DE679" FromRole="PropertyDetailsTemplate" ToRole="Property" />
+    <NavigationProperty Name="User" Relationship="Self.FK__PropertyD__UserI__07220AB2" FromRole="PropertyDetailsTemplate" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK__Property__UserId__04459E07">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Property" Type="Self.Property" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Property">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PropertyD__Prope__062DE679">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+    <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="PropertyId" />
+      </Principal>
+      <Dependent Role="PropertyDetailsTemplate">
+        <PropertyRef Name="PropertyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPrope__Prope__0BE6BFCF">
+    <End Role="Property" Type="Self.Property" Multiplicity="1" />
+    <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="PropertyId" />
+      </Principal>
+      <Dependent Role="UserProperty">
+        <PropertyRef Name="PropertyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Staff__UserId__793DFFAF">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Staff">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPrope__UserI__09FE775D">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserProperty">
+        <PropertyRef Name="UserIdOfSeller" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserPrope__UserI__0AF29B96">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserProperty" Type="Self.UserProperty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserProperty">
+        <PropertyRef Name="UserIdOfBuyer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PropertyD__UserI__07220AB2">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="PropertyDetailsTemplate" Type="Self.PropertyDetailsTemplate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PropertyDetailsTemplate">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VirtualVistaBaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Properties" EntityType="Self.Property" />
+    <EntitySet Name="Staffs" EntityType="Self.Staff" />
+    <EntitySet Name="UserProperties" EntityType="Self.UserProperty" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="PropertyDetailsTemplates" EntityType="Self.PropertyDetailsTemplate" />
+    <AssociationSet Name="FK__Property__UserId__04459E07" Association="Self.FK__Property__UserId__04459E07">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Property" EntitySet="Properties" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PropertyD__Prope__062DE679" Association="Self.FK__PropertyD__Prope__062DE679">
+      <End Role="Property" EntitySet="Properties" />
+      <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPrope__Prope__0BE6BFCF" Association="Self.FK__UserPrope__Prope__0BE6BFCF">
+      <End Role="Property" EntitySet="Properties" />
+      <End Role="UserProperty" EntitySet="UserProperties" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Staff__UserId__793DFFAF" Association="Self.FK__Staff__UserId__793DFFAF">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Staff" EntitySet="Staffs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPrope__UserI__09FE775D" Association="Self.FK__UserPrope__UserI__09FE775D">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserProperty" EntitySet="UserProperties" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserPrope__UserI__0AF29B96" Association="Self.FK__UserPrope__UserI__0AF29B96">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserProperty" EntitySet="UserProperties" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PropertyD__UserI__07220AB2" Association="Self.FK__PropertyD__UserI__07220AB2">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PropertyDetailsTemplate" EntitySet="PropertyDetailsTemplates" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&#038;display=swap&#038;ver=2.1.10');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&#038;display=block&#038;ver=6.4.4');
 
+/* Scrollbar Styles */
 ::-webkit-scrollbar {
     height: 12px;
     width: 12px;
@@ -18,23 +19,44 @@
     background: white;
 }
 
-.pagination {
-    text-align: center;
+/* Layout Structure */
+.d-flex-container {
     display: flex;
-    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left Column */
+#d-flex-shrink {
+    width: 17%;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    flex-shrink: 0;
+}
+
+#d-flex-grow {
+    flex-grow: 1;
+    min-height: 100vh;
 }
 
 .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: -700px;
-    z-index: 100;
-    padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    transition: left 0.3s ease;
+    width: 100%;
+    padding: 15px;
 }
 
+.sidebar img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Navigation Styles */
+.navbar {
+    padding: 0.5rem 1rem;
+}
+
+/* Button Styles */
 .btn-sidebar {
     display: flex;
     align-items: center;
@@ -58,108 +80,34 @@
     background-color: #145300d9;
     border-color: #ffffff;
     text-decoration: none;
+    color: #ffffff;
 }
 
-.sidebar > img {
-    max-width: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.sidebar img {
-    max-width: 200px;
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.sidebar a {
-    display: block;
-    padding: 10px 20px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.sidebar.open {
-    left: 0;
-}
-
-@media (min-width: 768px) {
-    .sidebar {
-        left: 0;
-    }
-}
-
+/* Mobile Styles */
 @media (max-width: 768px) {
-    .sidebar {
-        top: 56px;
+    .d-flex-container {
+        flex-direction: column;
     }
-}
 
-.navbar {
-    padding: 0.5rem 1rem;
-}
+    #d-flex-shrink {
+        width: 100%;
+        min-height: auto;
+    }
 
-.pe-3 {
-    padding-right: 1rem !important;
-}
-
-.ps-3 {
-    padding-left: 1rem !important;
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-item {
-    margin: 0 0.5rem;
-}
-
-.border-end {
-    border-right: 1px solid #000 !important;
-}
-
-.border-start {
-    border-left: 1px solid #000 !important;
-}
-
-.separator {
-    width: 5%;
-}
-
-.offcanvas {
-    width: 250px;
-}
-
-.sidebar {
-    padding: 15px;
-}
-
-.nav-item.my-2 {
-    margin: 10px 0;
-}
-
-.requestbtn {
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.requestbtn:hover {
-    background-color: #145300d9;
-    border-color: #145300d9;
-}
-
-
-@media (min-width: 576px) {
-    .offcanvas {
+    .sidebar {
         display: none;
     }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    .navbar {
+        display: block;
+    }
 }
 
+/* Table Styles */
 .table-container {
     padding: 20px;
     background-color: #fff;
@@ -167,16 +115,20 @@
     border-radius: 5px;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
-    content: '>';
-}
-
+/* Utility Classes */
 .pagination {
+    text-align: center;
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .pagination .page-item {
     margin: 2px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: '>';
 }
 
 .btn-group {
@@ -189,21 +141,25 @@
     height: 20px !important;
 }
 
+/* Data Cell Styles */
 #data {
-    max-width:100px;
+    max-width: 100px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height: 20px;
 }
- 
-#data:hover{
-    min-width:500px;
-    overflow: visible; 
-    white-space: normal; 
+
+#data:hover {
+    min-width: 500px;
+    overflow: visible;
+    white-space: normal;
     width: auto;
-    background-color:#FFF;
+    background-color: #FFF;
+    position: relative;
+    z-index: 1;
 }
-#data:hover+td {
-    margin-top:20px;
+
+#data:hover + td {
+    margin-top: 20px;
 }

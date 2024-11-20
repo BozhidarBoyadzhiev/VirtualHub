@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="VirtualVistaBaseModelStoreContainer" CdmEntityContainer="VirtualVistaBaseEntities">
+    <EntitySetMapping Name="Properties">
+      <EntityTypeMapping TypeName="VirtualVistaBaseModel.Property">
+        <MappingFragment StoreEntitySet="Property">
+          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="TypeOfProperty" ColumnName="TypeOfProperty" />
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="Neighbourhood" ColumnName="Neighbourhood" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="TypeOfConstruction" ColumnName="TypeOfConstruction" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="AdditionalInformation" ColumnName="AdditionalInformation" />
+          <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
+          <ScalarProperty Name="TypeOfSale" ColumnName="TypeOfSale" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="WantToBuy" ColumnName="WantToBuy" />
+          <ScalarProperty Name="Sold" ColumnName="Sold" />
+          <ScalarProperty Name="PropertyDetailsTable" ColumnName="PropertyDetailsTable" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Staffs">
+      <EntityTypeMapping TypeName="VirtualVistaBaseModel.Staff">
+        <MappingFragment StoreEntitySet="Staff">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserLevel" ColumnName="UserLevel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserProperties">
+      <EntityTypeMapping TypeName="VirtualVistaBaseModel.UserProperty">
+        <MappingFragment StoreEntitySet="UserProperty">
+          <ScalarProperty Name="UserIdOfSeller" ColumnName="UserIdOfSeller" />
+          <ScalarProperty Name="UserIdOfBuyer" ColumnName="UserIdOfBuyer" />
+          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="TypeOfRequest" ColumnName="TypeOfRequest" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="VirtualVistaBaseModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PropertyDetailsTemplates">
+      <EntityTypeMapping TypeName="VirtualVistaBaseModel.PropertyDetailsTemplate">
+        <MappingFragment StoreEntitySet="PropertyDetailsTemplate">
+          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="VTour" ColumnName="VTour" />
+          <ScalarProperty Name="Images" ColumnName="Images" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
