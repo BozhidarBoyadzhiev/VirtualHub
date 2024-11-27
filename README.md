@@ -1,8 +1,8 @@
 # VirtualHub
 
 <p align = "center">
-    <img src="VirtualVistaHub/VirtualVistaHub/Content/imgs/light_logo.png#gh-light-mode-only" />
-    <img src="VirtualVistaHub/VirtualVistaHub/Content/imgs/logo.png#gh-dark-mode-only"/>
+    <img src="VirtualVistaHub/VirtualVistaHub/Content/imgs/light_logo.png#gh-dark-mode-only" />
+    <img src="VirtualVistaHub/VirtualVistaHub/Content/imgs/logo.png#gh-light-mode-only"/>
 </p>
 
 ## 💻 За нас
