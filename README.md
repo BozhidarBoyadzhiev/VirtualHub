@@ -20,12 +20,9 @@
     <a href="https://dotnet.microsoft.com/en-us/apps/aspnet"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/1200px-.NET_Core_Logo.svg.png" alt="ASPNET core Logo" width=48px /></a>
     <a href="https://azure.com/"><img src="https://greenfinchwebsitestorage.blob.core.windows.net/media/2020/03/Microsoft_Entity-Framework.png" alt="EntityFramework Logo" width=48px /></a>
     <a href="https://github.com/"><img src="https://img.icons8.com/nolan/344/github.png" alt="GitHub logo" width=48px /></a>
+    <a href="https://github.com/furnishup/blueprint3d"><img src="https://i.imgur.com/WQPXAv3.png" alt="GitHub logo" width=48px /></a>
 </p>
 
 ## 📥 Как да се достъпи
 
-За да достъпите приложението последвайте този [линк](http://virtualvistahub.somee.com/) или компилирайте сами
-
-```
-git clone https://github.com/BozhidarBoyadzhiev/VirtualHub.git
-``` 
+За да достъпите приложението последвайте този [линк](http://virtualvistahub.somee.com/)
